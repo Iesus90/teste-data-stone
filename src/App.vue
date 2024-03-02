@@ -1,14 +1,17 @@
 <template>
   <FormProducts/>
+  <FormClients/>
 </template>
 
 <script>
 import FormProducts from './components/FormProducts.vue'
+import FormClients from './components/FormClients.vue'
 
 export default {
   name: 'App',
   components: {
-    FormProducts
+    FormProducts,
+    FormClients
   }
 }
 </script>
