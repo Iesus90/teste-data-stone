@@ -52,8 +52,7 @@ export default {
       if (this.clientSelected) {
         console.log('Cliente selecionado para edição:', this.clientSelected);
       } else {
-        this.clients.push({
-          id: this.clients.length + 1,
+        this.$store.dispatch('addClient', {
           name: this.newClient.name,
           doc: this.newClient.doc,
           phone: this.newClient.phone,

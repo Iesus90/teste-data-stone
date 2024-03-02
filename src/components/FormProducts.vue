@@ -43,8 +43,7 @@ export default {
       if (this.productSelected) {
         console.log('Produto selecionado para edição:', this.productSelected);
       } else {
-        this.products.push({
-          id: this.products.length + 1,
+        this.$store.dispatch('addProduct', {
           name: this.newProduct.name,
           active: this.newProduct.active
         });
