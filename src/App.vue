@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld msg="Hello World"/>
+  <FormProducts/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FormProducts from './components/FormProducts.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FormProducts
   }
 }
 </script>
