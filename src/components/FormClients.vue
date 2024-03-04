@@ -1,34 +1,36 @@
 <template>
-  <div>
-    <h2>Client Register</h2>
-    <form @submit.prevent="submitForm">
-      <label for="client">Select Client:</label>
-      <select v-model="clientSelected">
-        <option value="">New Client</option>
-        <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
-      </select>
-      <div v-if="!clientSelected">
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="newClient.name" required>
-        <label for="doc">Document:</label>
-        <input type="text" id="doc" v-model="newClient.doc" required>
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" v-model="newClient.phone" required>
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" v-model="newClient.email" required>
-        <label for="active">Active:</label>
-        <select id="active" v-model="newClient.active" required>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
+  <div class="client-register">
+    <h2>Costumer Register</h2>
+    <form @submit.prevent="submitForm" class="client-form">
+      <div>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" v-model="newClient.name" required>
+        </div>
+        <div class="form-group">
+          <label for="doc">Document:</label>
+          <input type="text" id="doc" v-model="newClient.doc" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <input type="text" id="phone" v-model="newClient.phone" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" v-model="newClient.email" required>
+        </div>
+        <div class="form-group">
+          <label for="active">Active:</label>
+          <select id="active" v-model="newClient.active" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
       </div>
-      <button type="submit">Save</button>
+      <div class="button-container">
+        <button type="submit">Save</button>
+      </div>
     </form>
-
-    <h2>Registered Clients:</h2>
-    <ul>
-      <li v-for="client in clients" :key="client.id">{{ client.name }}</li>
-    </ul>
   </div>
 </template>
 
@@ -71,3 +73,70 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.client-register {
+  margin-bottom: 20px;
+}
+
+.client-form {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.client-form label {
+  font-weight: bold;
+}
+
+.client-form input,
+.client-form select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  width: 120px;
+  margin-right: 10px;
+}
+
+.form-group input,
+.form-group select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  background-color: rgb(56, 130, 209);
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.button-container button:hover {
+  transition: 0.25s;
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+</style>

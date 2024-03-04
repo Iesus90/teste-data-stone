@@ -21,6 +21,12 @@ export default new createStore({
     },
     addAssociation(state, association) {
       state.associations.push(association);
+    },
+    updateProduct(state, updatedProduct) {
+      const index = state.products.findIndex(product => product.id === updatedProduct.id);
+      if (index !== -1) {
+        state.products.splice(index, 1, updatedProduct);
+      }
     }
   },
   actions: {
@@ -42,6 +48,9 @@ export default new createStore({
     },
     async addAssociation(context, association) {
       context.commit('addAssociation', association);
+    },
+    async updateProduct(context, updatedProduct) {
+      context.commit('updateProduct', updatedProduct);
     }
   },
   getters: {
