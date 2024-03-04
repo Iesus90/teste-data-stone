@@ -20,10 +20,10 @@
       </div>
     </form>
 
-    <h2>Registered Products:</h2>
+    <h2>List Products:</h2>
     <ul>
       <li v-for="product in products" :key="product.id" @click="editProduct(product)">
-        {{ product.name }} - {{ product.active ? 'Active' : 'Inactive' }}
+        {{ product.name }} - {{ product.active === 'yes' ? 'Active' : 'Inactive' }}
       </li>
     </ul>
   </div>
@@ -36,7 +36,7 @@ export default {
       editedProduct: {
         id: null,
         name: '',
-        active: 'yes'
+        active: ''
       },
       editingProduct: false
     };
@@ -47,6 +47,10 @@ export default {
     }
   },
   methods: {
+    editProduct(product) {
+      this.editedProduct = { ...product };
+      this.editingProduct = true;
+    },
     submitForm() {
       if (this.editingProduct) {
         this.$store.dispatch('updateProduct', this.editedProduct);
@@ -55,15 +59,11 @@ export default {
       }
       this.clearForm();
     },
-    editProduct(product) {
-      this.editedProduct = { ...product };
-      this.editingProduct = true;
-    },
     clearForm() {
       this.editedProduct = {
         id: null,
         name: '',
-        active: 'yes'
+        active: ''
       };
       this.editingProduct = false;
     }

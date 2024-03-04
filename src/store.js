@@ -2,19 +2,19 @@ import { createStore } from 'vuex'
 
 export default new createStore({
   state: {
-    clients: [],
+    costumers: [],
     products: [],
     associations: []
   },
   mutations: {
-    setClients(state, clients) {
-      state.clients = clients;
+    setCostumers(state, costumers) {
+      state.costumers = costumers;
     },
     setProducts(state, products) {
       state.products = products;
     },
-    addClient(state, client) {
-      state.clients.push(client);
+    addCostumer(state, costumer) {
+      state.costumers.push(costumer);
     },
     addProduct(state, product) {
       state.products.push(product);
@@ -25,22 +25,33 @@ export default new createStore({
     updateProduct(state, updatedProduct) {
       const index = state.products.findIndex(product => product.id === updatedProduct.id);
       if (index !== -1) {
-        state.products.splice(index, 1, updatedProduct);
+        state.products[index].name = updatedProduct.name;
+        state.products[index].active = updatedProduct.active;
+      }
+    },
+    updateCostumer(state, updatedCostumer) {
+      const index = state.costumers.findIndex(costumer => costumer.id === updatedCostumer.id);
+      if (index !== -1) {
+        state.costumers[index].name = updatedCostumer.name;
+        state.costumers[index].doc = updatedCostumer.doc;
+        state.costumers[index].phone = updatedCostumer.phone;
+        state.costumers[index].email = updatedCostumer.email;
+        state.costumers[index].active = updatedCostumer.active;
       }
     }
   },
   actions: {
-    fetchClients(context) {
-      const clients = []
-      context.commit('setClients', clients);
+    fetchCostumers(context) {
+      const costumers = []
+      context.commit('setCostumers', costumers);
     },
     fetchProducts(context) {
       const products = []
       context.commit('setProducts', products);
     },
-    async addClient(context, client) {
-      const newClient = { ...client, id: context.state.clients.length + 1 };
-      context.commit('addClient', newClient);
+    async addCostumer(context, costumer) {
+      const newCostumer = { ...costumer, id: context.state.costumers.length + 1 };
+      context.commit('addCostumer', newCostumer);
     },
     async addProduct(context, product) {
       const newProduct = { ...product, id: context.state.products.length + 1 };
@@ -51,6 +62,9 @@ export default new createStore({
     },
     async updateProduct(context, updatedProduct) {
       context.commit('updateProduct', updatedProduct);
+    },
+    async updateCostumer(context, updateCostumer) {
+      context.commit('updateCostumer', updateCostumer);
     }
   },
   getters: {

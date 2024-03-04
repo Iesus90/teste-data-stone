@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import FormProducts from '../components/FormProducts.vue';
-import FormClients from '../components/FormClients.vue';
-import Association from '../components/ClientsProductsAssociation.vue';
+import FormCostumers from '../components/FormCostumers.vue';
+import Association from '../components/CostumersProductsAssociation.vue';
 
 const routes = [
   { path: '/form-products', component: FormProducts },
-  { path: '/form-clients', component: FormClients },
+  { path: '/form-costumers', component: FormCostumers },
   { path: '/association', component: Association }
 ];
 

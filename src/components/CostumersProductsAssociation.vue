@@ -3,9 +3,9 @@
     <h2>Costumer - Product Association</h2>
     <div class="association-form">
       <div class="form-group">
-        <label for="client">Costumer:</label>
-        <select v-model="clientSelected">
-          <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+        <label for="costumer">Costumer:</label>
+        <select v-model="costumerSelected">
+          <option v-for="costumer in costumers" :key="costumer.id" :value="costumer.id">{{ costumer.name }}</option>
         </select>
       </div>
       <br>
@@ -26,13 +26,13 @@
 export default {
   data() {
     return {
-      clientSelected: null,
+      costumerSelected: null,
       productsSelecteds: [],
     };
   },
   computed: {
-    clients() {
-      return this.$store.state.clients;
+    costumers() {
+      return this.$store.state.costumers;
     },
     products() {
       return this.$store.state.products;
@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     associateProducts() {
-      if (!this.clientSelected) {
-        console.error('Select a client');
+      if (!this.costumerSelected) {
+        console.error('Select a costumer');
         return;
       }
 
@@ -53,18 +53,18 @@ export default {
         return;
       }
 
-      const selectedClient = this.clients.find(client => client.id === this.clientSelected);
+      const selectedCostumer = this.costumers.find(costumer => costumer.id === this.costumerSelected);
 
       const selectedProducts = this.products.filter(product => this.productsSelecteds.includes(product.id));
 
       const association = {
-        client: selectedClient,
+        costumer: selectedCostumer,
         products: selectedProducts
       };
 
       this.$store.dispatch('addAssociation', association);
 
-      this.clientSelected = null;
+      this.costumerSelected = null;
       this.productsSelecteds = [];
     }
   }

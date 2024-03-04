@@ -1,36 +1,45 @@
 <template>
-  <div class="client-register">
+  <div class="costumer-register">
     <h2>Costumer Register</h2>
-    <form @submit.prevent="submitForm" class="client-form">
+    <form @submit.prevent="submitForm" class="costumer-form">
       <div>
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" id="name" v-model="newClient.name" required>
+          <input type="text" id="name" v-model="editedCostumer.name" required>
         </div>
         <div class="form-group">
           <label for="doc">Document:</label>
-          <input type="text" id="doc" v-model="newClient.doc" required>
+          <input type="text" id="doc" v-model="editedCostumer.doc" required>
         </div>
         <div class="form-group">
           <label for="phone">Phone:</label>
-          <input type="text" id="phone" v-model="newClient.phone" required>
+          <input type="text" id="phone" v-model="editedCostumer.phone" required>
         </div>
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" id="email" v-model="newClient.email" required>
+          <input type="email" id="email" v-model="editedCostumer.email" required>
         </div>
         <div class="form-group">
           <label for="active">Active:</label>
-          <select id="active" v-model="newClient.active" required>
+          <select id="active" v-model="editedCostumer.active" required>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
         </div>
       </div>
       <div class="button-container">
-        <button type="submit">Save</button>
+        <button type="submit">{{ editingCostumer ? 'Update' : 'Save' }}</button>
       </div>
     </form>
+
+    <h2>List Costumers:</h2>
+    <ul>
+      <li v-for="costumer in costumers" :key="costumer.id" @click="editCostumer(costumer)">
+        {{ costumer.name }} - {{ costumer.doc }} -
+         {{ costumer.phone }} - {{ costumer.email }} -
+         {{ costumer.active === 'yes' ? 'Active' : 'Inactive' }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -38,60 +47,68 @@
 export default {
   data() {
     return {
-      clientSelected: '',
-      newClient: {
+      editedCostumer: {
+        id: null,
         name: '',
         doc: '',
         phone: '',
         email: '',
-        active: 'yes'
+        active: ''
       },
-      clients: []
+      editingCostumer: false
     };
   },
+  computed: {
+    costumers() {
+      return this.$store.state.costumers;
+    }
+  },
   methods: {
+    editCostumer(costumer) {
+      this.editedCostumer = { ...costumer };
+      this.editingCostumer = true;
+    },
     submitForm() {
-      if (this.clientSelected) {
-        console.log('Cliente selecionado para edição:', this.clientSelected);
+      if (this.editingCostumer) {
+        this.$store.dispatch('updateCostumer', this.editedCostumer);
       } else {
-        this.$store.dispatch('addClient', {
-          name: this.newClient.name,
-          doc: this.newClient.doc,
-          phone: this.newClient.phone,
-          email: this.newClient.email,
-          active: this.newClient.active
-        });
-        console.log('Novo cliente cadastrado:', this.newClient);
+        this.$store.dispatch('addCostumer', this.editedCostumer);
       }
-      this.clientSelected = '';
-      this.newClient.name = '';
-      this.newClient.doc = '';
-      this.newClient.phone = '';
-      this.newClient.email = '';
-      this.newClient.active = 'yes';
+      this.clearForm();
+    },
+    clearForm() {
+      this.editingCostumer = false;
+      this.editedCostumer = {
+        id: null,
+        name: '',
+        doc: '',
+        phone: '',
+        email: '',
+        active: ''
+      };
     }
   }
 };
 </script>
 
 <style scoped>
-.client-register {
+.costumer-register {
   margin-bottom: 20px;
 }
 
-.client-form {
+.costumer-form {
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.client-form label {
+.costumer-form label {
   font-weight: bold;
 }
 
-.client-form input,
-.client-form select {
+.costumer-form input,
+.costumer-form select {
   width: 100%;
   padding: 8px;
   margin: 5px 0;
