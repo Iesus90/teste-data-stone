@@ -1,22 +1,16 @@
 <template>
-  <FormProducts/>
-  <FormClients/>
-  <Association :clients="clients" :products="products"/>
+  <router-link to="/form-clients">Costumers</router-link>
+  <router-link to="/form-products">Products</router-link>
+  <router-link to="/association">Associations</router-link>
+  <router-view/>
 </template>
 
 <script>
-import FormProducts from './components/FormProducts.vue';
-import FormClients from './components/FormClients.vue';
-import Association from './components/ClientsProductsAssociation.vue';
 import store from './store';
+
 
 export default {
   name: 'App',
-  components: {
-    FormProducts,
-    FormClients,
-    Association
-  },
   data() {
     return {
       clients: [],
