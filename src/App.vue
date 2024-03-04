@@ -1,6 +1,6 @@
 <template>
   <div class="link-container">
-    <router-link to="/form-costumers">Costumers</router-link>
+    <router-link to="/form-customers">Customers</router-link>
     <router-link to="/form-products">Products</router-link>
     <router-link to="/association">Associations</router-link>
   </div>
@@ -15,17 +15,17 @@ export default {
   name: 'App',
   data() {
     return {
-      costumers: [],
+      customers: [],
       products: []
     };
   },
   created() {
-    this.fetchCostumers();
+    this.fetchCustomers();
     this.fetchProducts();
   },
   methods: {
-    fetchCostumers() {
-      store.commit('setCostumers', []);
+    fetchCustomers() {
+      store.commit('setCustomers', []);
     },
     fetchProducts() {
       store.commit('setProducts', []);
@@ -65,5 +65,9 @@ export default {
   transition: 0.25s;
   background-color: rgb(56, 130, 209);
   color: white;
+}
+
+caption {
+  display: none;
 }
 </style>

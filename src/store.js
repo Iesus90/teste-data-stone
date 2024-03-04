@@ -2,19 +2,19 @@ import { createStore } from 'vuex'
 
 export default new createStore({
   state: {
-    costumers: [],
+    customers: [],
     products: [],
     associations: []
   },
   mutations: {
-    setCostumers(state, costumers) {
-      state.costumers = costumers;
+    setCustomers(state, customers) {
+      state.customers = customers;
     },
     setProducts(state, products) {
       state.products = products;
     },
-    addCostumer(state, costumer) {
-      state.costumers.push(costumer);
+    addCustomer(state, customer) {
+      state.customers.push(customer);
     },
     addProduct(state, product) {
       state.products.push(product);
@@ -29,29 +29,36 @@ export default new createStore({
         state.products[index].active = updatedProduct.active;
       }
     },
-    updateCostumer(state, updatedCostumer) {
-      const index = state.costumers.findIndex(costumer => costumer.id === updatedCostumer.id);
+    updateCustomer(state, updatedCustomer) {
+      const index = state.customers.findIndex(customer => customer.id === updatedCustomer.id);
       if (index !== -1) {
-        state.costumers[index].name = updatedCostumer.name;
-        state.costumers[index].doc = updatedCostumer.doc;
-        state.costumers[index].phone = updatedCostumer.phone;
-        state.costumers[index].email = updatedCostumer.email;
-        state.costumers[index].active = updatedCostumer.active;
+        state.customers[index].name = updatedCustomer.name;
+        state.customers[index].doc = updatedCustomer.doc;
+        state.customers[index].phone = updatedCustomer.phone;
+        state.customers[index].email = updatedCustomer.email;
+        state.customers[index].active = updatedCustomer.active;
+      }
+    },
+    updateAssociation(state, updatedAssociation) {
+      const index = state.associations.findIndex(association => association.id === updatedAssociation.id);
+      if (index !== -1) {
+        state.associations[index].customer = updatedAssociation.customer;
+        state.associations[index].products = updatedAssociation.products;
       }
     }
   },
   actions: {
-    fetchCostumers(context) {
-      const costumers = []
-      context.commit('setCostumers', costumers);
+    fetchCustomers(context) {
+      const customers = []
+      context.commit('setCustomers', customers);
     },
     fetchProducts(context) {
       const products = []
       context.commit('setProducts', products);
     },
-    async addCostumer(context, costumer) {
-      const newCostumer = { ...costumer, id: context.state.costumers.length + 1 };
-      context.commit('addCostumer', newCostumer);
+    async addCustomer(context, customer) {
+      const newCustomer = { ...customer, id: context.state.customers.length + 1 };
+      context.commit('addCustomer', newCustomer);
     },
     async addProduct(context, product) {
       const newProduct = { ...product, id: context.state.products.length + 1 };
@@ -63,8 +70,11 @@ export default new createStore({
     async updateProduct(context, updatedProduct) {
       context.commit('updateProduct', updatedProduct);
     },
-    async updateCostumer(context, updateCostumer) {
-      context.commit('updateCostumer', updateCostumer);
+    async updateCustomer(context, updateCustomer) {
+      context.commit('updateCustomer', updateCustomer);
+    },
+    async updateAssociation(context, updateAssociation) {
+      context.commit('updateAssociation', updateAssociation);
     }
   },
   getters: {

@@ -20,12 +20,24 @@
       </div>
     </form>
 
-    <h2>List Products:</h2>
-    <ul>
-      <li v-for="product in products" :key="product.id" @click="editProduct(product)">
-        {{ product.name }} - {{ product.active === 'yes' ? 'Active' : 'Inactive' }}
-      </li>
-    </ul>
+    <div v-if="products.length > 0">
+      <h2>List Products:</h2>
+      <table>
+        <caption>List of Products</caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id" @click="editProduct(product)">
+            <td>{{ product.name }}</td>
+            <td>{{ product.active === 'yes' ? 'Active' : 'Inactive' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -135,5 +147,33 @@ button {
 .button-container button:hover {
   transition: 0.25s;
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+th:last-child {
+  text-align: right;
+}
+
+td:last-child {
+  text-align: right;
 }
 </style>
