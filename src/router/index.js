@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import FormProducts from '../components/FormProducts.vue';
-import FormCustomers from '../components/FormCustomers.vue';
-import Association from '../components/CustomersProductsAssociation.vue';
+import FormProducts from '../screens/FormProducts/FormProducts.vue';
+import FormCustomers from '../screens/FormCustomers/FormCustomers.vue';
+import Association from '../screens/Associations/CustomersProductsAssociation.vue';
 
 const routes = [
   { path: '/form-products', component: FormProducts },
