@@ -72,9 +72,21 @@ export default {
     },
     submitForm() {
       if (this.editingProduct) {
-        this.$store.dispatch('updateProduct', this.editedProduct);
+        this.$store.dispatch('updateProduct', this.editedProduct)
+        .then(() => {
+          this.showToast('Product updated successfully', 'success');
+        })
+        .catch(error => {
+          console.error('Error updating product:', error);
+        });
       } else {
-        this.$store.dispatch('addProduct', this.editedProduct);
+        this.$store.dispatch('addProduct', this.editedProduct)
+        .then(() => {
+          this.showToast('Product saved successfully', 'success');
+        })
+        .catch(error => {
+          console.error('Error updating product:', error);
+        });
       }
       this.clearForm();
     },
@@ -85,7 +97,14 @@ export default {
         active: ''
       };
       this.editingProduct = false;
-    }
+    },
+    showToast(message, type) {
+      this.$toast.open({
+        message: message,
+        type: type,
+        position: 'top-right'
+      });
+    },
   }
 };
 </script>

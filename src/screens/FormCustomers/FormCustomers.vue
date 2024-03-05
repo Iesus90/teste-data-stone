@@ -90,9 +90,21 @@ export default {
     },
     submitForm() {
       if (this.editingCustomer) {
-        this.$store.dispatch('updateCustomer', this.editedCustomer);
+        this.$store.dispatch('updateCustomer', this.editedCustomer)
+        .then(() => {
+          this.showToast('Customer updated successfully', 'success');
+        })
+        .catch(error => {
+          console.error('Error updating customer:', error);
+        });
       } else {
-        this.$store.dispatch('addCustomer', this.editedCustomer);
+        this.$store.dispatch('addCustomer', this.editedCustomer)
+        .then(() => {
+          this.showToast('Customer saved successfully', 'success');
+        })
+        .catch(error => {
+          console.error('Error updating customer:', error);
+        });
       }
       this.clearForm();
     },
@@ -115,7 +127,14 @@ export default {
           customerName: customer.name 
         }
       });
-    }
+    },
+    showToast(message, type) {
+      this.$toast.open({
+        message: message,
+        type: type,
+        position: 'top-right'
+      });
+    },
   }
 };
 </script>

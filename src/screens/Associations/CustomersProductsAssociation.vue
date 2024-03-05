@@ -57,12 +57,12 @@ export default {
   methods: {
     associateProducts() {
       if (!this.customerId) {
-        console.error('Select a customer');
+        this.showToast('Select a customer', 'error');
         return;
       }
 
       if (this.productsSelecteds.length === 0) {
-        console.error('Select at least one product');
+        this.showToast('Select at least one product', 'error');
         return;
       }
 
@@ -77,9 +77,21 @@ export default {
       const existingAssociation = this.$store.getters.getAllAssociations.find(association => association.customer.id === this.customerId);
 
       if (existingAssociation) {
-        this.$store.dispatch('updateAssociation', association);
+        this.$store.dispatch('updateAssociation', association)
+          .then(() => {
+            this.showToast('Association updated successfully', 'success');
+          })
+          .catch(error => {
+            console.error('Error updating association:', error);
+          });
       } else {
-        this.$store.dispatch('addAssociation', association);
+        this.$store.dispatch('addAssociation', association)
+          .then(() => {
+            this.showToast('Association saved successfully', 'success');
+          })
+          .catch(error => {
+            console.error('Error adding association:', error);
+          });
       }
 
       this.customerId = null;
@@ -104,6 +116,13 @@ export default {
           this.customerId = null;
         }
       }
+    },
+    showToast(message, type) {
+      this.$toast.open({
+        message: message,
+        type: type,
+        position: 'top-right'
+      });
     },
   }
 };
