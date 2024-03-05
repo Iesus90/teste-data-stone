@@ -3,10 +3,7 @@
     <h2>Products Register</h2>
     <form @submit.prevent="submitForm" class="product-form">
       <div>
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" v-model="editedProduct.name" required>
-        </div>
+        <InputText id="name" label="Name:" v-model="editedProduct.name" :is-required="true" />
         <div class="form-group">
           <label for="active">Active:</label>
           <select id="active" v-model="editedProduct.active" required>
@@ -33,7 +30,10 @@
         <tbody>
           <tr v-for="product in products" :key="product.id" @click="editProduct(product)">
             <td>{{ product.name }}</td>
-            <td>{{ product.active === 'yes' ? 'Active' : 'Inactive' }}</td>
+            <td>
+              <v-icon name="fa-check-square" scale="2" color="#2dd118bd" v-if="product.active === 'yes'" />
+              <v-icon name="fa-window-close" scale="2" color="#d11818bd" v-else />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -42,7 +42,14 @@
 </template>
 
 <script>
+import InputText from '../../components/InputText/InputText.vue'
+import OhVueIcon from "oh-vue-icons"
+
 export default {
+  components: {
+    InputText,
+    "v-icon": OhVueIcon
+  },
   data() {
     return {
       editedProduct: {
@@ -50,7 +57,7 @@ export default {
         name: '',
         active: ''
       },
-      editingProduct: false
+      editingProduct: false,
     };
   },
   computed: {

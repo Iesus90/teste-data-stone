@@ -3,22 +3,10 @@
     <h2>Customer Register</h2>
     <form @submit.prevent="submitForm" class="customer-form">
       <div>
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" v-model="editedCustomer.name" required>
-        </div>
-        <div class="form-group">
-          <label for="doc">Document:</label>
-          <input type="text" id="doc" v-model="editedCustomer.doc" required>
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone:</label>
-          <input type="text" id="phone" v-model="editedCustomer.phone" required>
-        </div>
-        <div class="form-group">
-          <label for="email">E-mail:</label>
-          <input type="email" id="email" v-model="editedCustomer.email" required>
-        </div>
+        <InputText id="name" label="Name:" v-model="editedCustomer.name" :is-required="true" />
+        <InputText id="doc" label="Document:" v-model="editedCustomer.doc" :is-required="true" />
+        <InputText id="phone" label="Phone:" v-model="editedCustomer.phone" :is-required="true" />
+        <InputText id="email" label="E-mail:" type="email" v-model="editedCustomer.email" :is-required="true" />
         <div class="form-group">
           <label for="active">Active:</label>
           <select id="active" v-model="editedCustomer.active" required>
@@ -53,7 +41,10 @@
               <td>{{ customer.doc }}</td>
               <td>{{ customer.phone }}</td>
               <td>{{ customer.email }}</td>
-              <td>{{ customer.active === 'yes' ? 'Active' : 'Inactive' }}</td>
+              <td>
+                <v-icon name="fa-check-square" scale="2" color="#2dd118bd" v-if="customer.active === 'yes'" />
+                <v-icon name="fa-window-close" scale="2" color="#d11818bd" v-else />
+              </td>
               <td>
                 <button @click="associateProducts(customer)">Associate</button>
               </td>
@@ -66,7 +57,14 @@
 </template>
 
 <script>
+import InputText from '../../components/InputText/InputText.vue'
+import OhVueIcon from "oh-vue-icons"
+
 export default {
+  components: {
+    InputText,
+    "v-icon": OhVueIcon
+  },
   data() {
     return {
       editedCustomer: {
