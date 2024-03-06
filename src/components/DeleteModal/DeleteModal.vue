@@ -4,7 +4,7 @@
       <div class="modal-content">
         <p>{{ message }}</p>
         <div class="button-container">
-          <button @click="deleteAndClose">Delete</button>
+          <button @click="deleteAndClose" style="background-color: #d11818bd;">Delete</button>
           <button @click="closeModal" style="margin-left: 1rem;">Cancel</button>
         </div>
       </div>
