@@ -16,54 +16,47 @@
         </div>
       </div>
       <div class="button-container">
-        <button type="submit">{{ editingCustomer ? 'Update' : 'Save' }}</button>
+        <button 
+          type="button"
+          @click="openDeleteModal"
+          style="background-color: #d11818bd;"
+          v-if="editingCustomer">
+            Delete
+        </button>
+        <button type="submit" style="margin-left: 1rem;">{{ editingCustomer ? 'Update' : 'Save' }}</button>
       </div>
     </form>
 
-    <div v-if="customers.length > 0">
-      <h2>List Customers:</h2>
-      <div class="table-container">
-        <table>
-          <caption>List of Customers</caption>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Document</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Active</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="customer in customers" :key="customer.id" @click="editCustomer(customer)">
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.doc }}</td>
-              <td>{{ customer.phone }}</td>
-              <td>{{ customer.email }}</td>
-              <td>
-                <v-icon name="fa-check-square" scale="2" color="#2dd118bd" v-if="customer.active === 'yes'" />
-                <v-icon name="fa-window-close" scale="2" color="#d11818bd" v-else />
-              </td>
-              <td>
-                <button @click="associateProducts(customer)">Associate</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <data-table
+      v-if="customers.length > 0"
+      caption="List Customers"
+      :items="customers"
+      :headers="['Name', 'Document', 'Phone', 'Email', 'Active', '']"
+      :fields="['name', 'doc', 'phone', 'email', 'active']"
+      :action-button="associateProducts"
+      :action-button-label="'Associate'"
+      @edit="editCustomer"
+    />
+    <delete-modal 
+      ref="deleteModal" 
+      :message="'Are you sure you want to delete this customer?'"
+      :register-id="editedCustomer.id" 
+      :delete-function="deleteCustomer"
+      @close="handleModalClose"
+    />
   </div>
 </template>
 
 <script>
 import InputText from '../../components/InputText/InputText.vue'
-import OhVueIcon from "oh-vue-icons"
+import DataTable from '../../components/DataTable/DataTable.vue'
+import DeleteModal from '../../components/DeleteModal/DeleteModal.vue'
 
 export default {
   components: {
     InputText,
-    "v-icon": OhVueIcon
+    DataTable,
+    DeleteModal
   },
   data() {
     return {
@@ -135,6 +128,22 @@ export default {
         position: 'top-right'
       });
     },
+    openDeleteModal() {
+      this.$refs.deleteModal.open();
+    },
+    deleteCustomer() {
+      this.$store.dispatch('deleteCustomer', this.editedCustomer.id)
+        .then(() => {
+          this.showToast('Customer deleted successfully', 'success');
+          this.clearForm();
+        })
+        .catch(error => {
+          console.error('Error deleting customer:', error);
+        });
+    },
+    handleModalClose() {
+      this.clearForm();
+    }
   }
 };
 </script>

@@ -45,7 +45,13 @@ export default new createStore({
         state.associations[index].customer = updatedAssociation.customer;
         state.associations[index].products = updatedAssociation.products;
       }
-    }
+    },
+    deleteCustomer(state, customerId) {
+      state.customers = state.customers.filter(customer => customer.id !== customerId);
+    },
+    deleteProduct(state, productId) {
+      state.products = state.products.filter(product => product.id !== productId);
+    },
   },
   actions: {
     fetchCustomers(context) {
@@ -75,6 +81,12 @@ export default new createStore({
     },
     async updateAssociation(context, updateAssociation) {
       context.commit('updateAssociation', updateAssociation);
+    },
+    async deleteCustomer({ commit }, customerId) {
+      commit('deleteCustomer', customerId);
+    },
+    async deleteProduct({ commit }, productId) {
+      commit('deleteProduct', productId);
     }
   },
   getters: {

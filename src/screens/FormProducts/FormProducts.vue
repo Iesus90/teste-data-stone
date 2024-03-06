@@ -13,42 +13,45 @@
         </div>
       </div>
       <div class="button-container">
-        <button type="submit">{{ editingProduct ? 'Update' : 'Save' }}</button>
+        <button 
+          type="button"
+          @click="openDeleteModal"
+          style="background-color: #d11818bd;"
+          v-if="editingProduct">
+            Delete
+        </button>
+        <button type="submit" style="margin-left: 1rem;">{{ editingProduct ? 'Update' : 'Save' }}</button>
       </div>
     </form>
 
-    <div v-if="products.length > 0">
-      <h2>List Products:</h2>
-      <table>
-        <caption>List of Products</caption>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Active</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in products" :key="product.id" @click="editProduct(product)">
-            <td>{{ product.name }}</td>
-            <td>
-              <v-icon name="fa-check-square" scale="2" color="#2dd118bd" v-if="product.active === 'yes'" />
-              <v-icon name="fa-window-close" scale="2" color="#d11818bd" v-else />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <data-table
+      v-if="products.length > 0"
+      caption="List Products"
+      :items="products"
+      :headers="['Name', 'Active']"
+      :fields="['name', 'active']"
+      @edit="editProduct"
+    />
+    <delete-modal 
+      ref="deleteModal" 
+      :message="'Are you sure you want to delete this product?'"
+      :register-id="editedProduct.id" 
+      :delete-function="deleteProduct"
+      @close="handleModalClose"
+    />
   </div>
 </template>
 
 <script>
 import InputText from '../../components/InputText/InputText.vue'
-import OhVueIcon from "oh-vue-icons"
+import DataTable from '../../components/DataTable/DataTable.vue'
+import DeleteModal from '../../components/DeleteModal/DeleteModal.vue'
 
 export default {
   components: {
     InputText,
-    "v-icon": OhVueIcon
+    DataTable,
+    DeleteModal
   },
   data() {
     return {
@@ -105,6 +108,22 @@ export default {
         position: 'top-right'
       });
     },
+    openDeleteModal() {
+      this.$refs.deleteModal.open();
+    },
+    deleteProduct() {
+      this.$store.dispatch('deleteProduct', this.editedProduct.id)
+        .then(() => {
+          this.showToast('Product deleted successfully', 'success');
+          this.clearForm();
+        })
+        .catch(error => {
+          console.error('Error deleting product:', error);
+        });
+    },
+    handleModalClose() {
+      this.clearForm();
+    }
   }
 };
 </script>

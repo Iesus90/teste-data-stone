@@ -66,8 +66,4 @@ export default {
   background-color: rgb(56, 130, 209);
   color: white;
 }
-
-caption {
-  display: none;
-}
 </style>
